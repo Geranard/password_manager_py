@@ -1,10 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
 import json
-# messagebox bukan class, jadinya harus spesifik
-# json.dump -> write
-# json.load -> read
-# json.update -> update
 
 # ---------------------------- SEARCH DATA ---------------------------- #
 
@@ -63,25 +59,16 @@ def save_password():
     else:
         try:
             with open(file="data.json", mode="r") as file:
-                # json.dump(new_data, file, indent=4) #json.dump -> dump data nya ke file tertentu dengan indent (spasi) tertentu
-                data = json.load(file) # ini artinya baca dari file json yang diatas
-                # print(data)
-
-                # jangan nambahin manual kayak bikin dict baru lagi, mending update
+                data = json.load(file)
                 data.update(new_data)
-                # misalnya datanya itu aslinya Amazon, user@gmail.com, 12345678
-                # trus kita masukin lagi Amazon, username@gmail.com, 456789012
 
         except FileNotFoundError:
             with open(file="data.json", mode="w") as file:
                 json.dump(new_data, file, indent=4)
-                # ini kalo misalnya kagak ada file data.json nya
 
         else:
             with open(file="data.json", mode="w") as file:
                 json.dump(data, file, indent=4)
-                # ini kalo mau update
-                # baru ditulis lagi, di dump lagi yang udah di update
 
         finally:
             website_entry.delete(first=0, last=END)
@@ -98,7 +85,6 @@ logo_png = PhotoImage(file="logo.png")
 canvas.create_image(100, 100, image=logo_png)
 canvas.grid(row=0, column=1)
 
-#label
 website_label = Label(text="Website:")
 website_label.grid(row=1, column=0)
 
@@ -108,25 +94,17 @@ username_label.grid(row=2, column=0)
 password_label = Label(text="Password:")
 password_label.grid(row=3, column=0)
 
-#entry
-## sticky itu maksudnya mau nempel kemana, E itu east, W itu west
-
 website_entry = Entry()
 website_entry.grid(row=1, column=1, columnspan=2, sticky="EW")
 website_entry.focus()
-
-## focus itu untuk biar kalo launch apk nya, langsung ke entry tersebut, tinggal type aja
 
 username_entry = Entry()
 username_entry.grid(row=2, column=1, columnspan=2, sticky="EW")
 username_entry.insert(END, "user@gmail.com")
 
-## END itu tkinter constant, biar paling akhir gitu dari indexnya string, bisa juga pake 0 sih
-
 password_entry = Entry()
 password_entry.grid(row=3, column=1, sticky="EW")
 
-#button
 search_button = Button(text="Search", command=search)
 search_button.grid(row=1, column=2, sticky="EW")
 
